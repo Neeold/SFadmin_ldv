@@ -1,0 +1,19 @@
+---
+
+- hosts: ubuntu2
+  become: yes
+  tasks:
+  -  name: Install apache2 on Debian Family
+     apt:
+        name=apache2
+        state=latest
+     when:
+        ansible_os_family == "Debian"
+     notify:
+        apache2 systemd
+  handlers:
+  - name: apache2 systemd
+    systemd:
+     name: apache2
+     enabled: yes
+     state: started
